@@ -204,10 +204,13 @@ def run(rank, n_gpus, config):
         train_task = progress.add_task("Train", total=len(train_loader) - 1)
         for epoch in range(epoch_str, config.epochs + 1):
             if epoch <= warmup_epoch:
-                for param_group in optim_g.param_groups:
-                    param_group['lr'] = config.learning_rate / warmup_epoch * epoch
-                for param_group in optim_d.param_groups:
-                    param_group['lr'] = config.learning_rate / warmup_epoch * epoch
+                for optimizer in optim_g:  
+                    for param_group in optimizer.param_groups:
+                        param_group['lr'] = config.learning_rate / warmup_epoch * epoch
+
+                for optimizer in optim_d: 
+                    for param_group in optimizer.param_groups:
+                        param_group['lr'] = config.learning_rate / warmup_epoch * epoch
             if rank == 0:
                 train_and_evaluate(rank, rss_loss, epoch, config, [net_g, net_d], [optim_g, optim_d], [schedulers_g, schedulers_d], scaler, [train_loader, eval_loader], writer)
             else:
@@ -266,12 +269,13 @@ def train_and_evaluate(rank, rss_loss, epoch, config, nets, optims, schedulers, 
                 if not config.mini_nsf:
                     raise ValueError("PC augmentation is only available for generator with MiniNSF module.")
                 z, Goutput, (m, logs), commit_loss = net_g(sample,pc_aug_num=pc_aug_num)
-                audio_fake = torch.cat((
-                    Goutput['audio'],
-                    Goutput['audio_shift_c'],
-                    Goutput['audio_shift_a'],
-                    Goutput['audio_shift_ab']
-                ), dim=0)
+                audio_fake = Goutput['audio']
+                #audio_fake = torch.cat((
+                #    Goutput['audio'],
+                #    Goutput['audio_shift_c'],
+                #    Goutput['audio_shift_a'],
+                #    Goutput['audio_shift_ab']
+                #), dim=0)
             else:
                 z, Goutput, (m, logs), commit_loss = net_g(sample, pc_aug_num=0)
                 audio_fake = Goutput['audio']
@@ -375,9 +379,16 @@ def train_and_evaluate(rank, rss_loss, epoch, config, nets, optims, schedulers, 
                 keep_ckpts = getattr(config, 'keep_ckpts', 0)
                 if keep_ckpts > 0:
                     utils.clean_checkpoints(path_to_models=config.model_dir, n_ckpts_to_keep=keep_ckpts, sort_by_time=True)
-                    print(f"Save checkpoint: G_{global_step}.pth D_{global_step}.pth | epoch={epoch}, step={global_step}, lr={optim_g.param_groups[0]['lr']:.5f}, loss_g={loss_gen.item():.2f}, loss_fm={loss_fm.item():.2f}, loss_mel={loss_mel.item():.2f}, loss_kl={loss_kl.item():.4f}, loss_pc_wav={pc_wav_loss.item():.2f}, vq_loss={commit_loss.item():.2f}")
+                    print("Types of variables:")
+                    print(f"loss_gen: {type(loss_gen)}")
+                    print(f"loss_fm: {type(loss_fm)}")
+                    print(f"loss_mel: {type(loss_mel)}")
+                    print(f"loss_kl: {type(loss_kl)}")
+                    print(f"pc_wav_loss: {type(pc_wav_loss)}")
+                    print(f"commit_loss: {type(commit_loss)}")
+                    print(f"Save checkpoint: G_{global_step}.pth D_{global_step}.pth | epoch={epoch}, step={global_step}, lr={optim_g_adamw.param_groups[0]['lr']:.5f}, loss_g={loss_gen.item():.2f}, loss_fm={loss_fm.item():.2f}, loss_mel={loss_mel.item():.2f}, loss_kl={loss_kl.item():.4f}, loss_pc_wav={pc_wav_loss.item():.2f}, vq_loss={commit_loss.item():.2f}")
             end_time = time.time()
-            progress.update(train_task, advance=1, description=f"speed={1 / (end_time - start_time):.2f}it/s, epoch={epoch}, step={global_step}, lr={optim_g.param_groups[0]['lr']:.5f}, loss_g={loss_gen.item():.2f}, loss_fm={loss_fm.item():.2f}, loss_mel={loss_mel.item():.2f}, loss_kl={loss_kl.item():.2f}, loss_pc_wav={pc_wav_loss.item():.2f}, vq_loss={commit_loss.item():.4f}, grad_norm={grad_norm_g:.2f}")
+            progress.update(train_task, advance=1, description=f"speed={1 / (end_time - start_time):.2f}it/s, epoch={epoch}, step={global_step}, lr={optim_g_adamw.param_groups[0]['lr']:.5f}, loss_g={loss_gen.item():.2f}, loss_fm={loss_fm.item():.2f}, loss_mel={loss_mel.item():.2f}, loss_kl={loss_kl.item():.2f}, loss_pc_wav={pc_wav_loss.item():.2f}, vq_loss={commit_loss.item():.4f}, grad_norm={grad_norm_g:.2f}")
         global_step += 1
     progress.reset(train_task)
 
@@ -393,7 +404,7 @@ def evaluate(config, generator, eval_loader, writer):
             wav = wav.cuda(0)
 
             mel = mel_spectrogram_torch(
-                wav,
+                wav.squeeze(1),
                 config.filter_length,
                 config.n_mel_channels,
                 config.sampling_rate,
@@ -402,7 +413,8 @@ def evaluate(config, generator, eval_loader, writer):
                 config.mel_fmin,
                 config.mel_fmax)
 
-            z, y_hat, (m, logs), commit_loss = generator(sample, pc_aug_num=0)["audio"]
+            z, y_hat, (m, logs), commit_loss = generator(sample, pc_aug_num=0)
+            y_hat = y_hat["audio"]
 
             y_hat_mel = mel_spectrogram_torch(
                 y_hat.squeeze(1).float(),
