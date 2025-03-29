@@ -584,7 +584,7 @@ class TrainModel(nn.Module):
         if self.quantizer is not None and self.training:
             z_, indices, commit_loss = self.quantizer(z.transpose(1,2))
         else:
-            commit_loss = 0
+            commit_loss = torch.tensor(0.0, device=z.device)
 
         return z, ret, (m, logs), commit_loss
     
