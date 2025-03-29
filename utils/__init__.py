@@ -301,43 +301,79 @@ MATPLOTLIB_FLAG = False
 logging.basicConfig(stream=sys.stdout, level=logging.WARN)
 logger = logging
 
-def load_checkpoint(checkpoint_path, model, optimizer=None, skip_optimizer=False):
-    assert os.path.isfile(checkpoint_path)
+def load_checkpoint(checkpoint_path, model, optimizers=None, skip_optimizer=False):
+    """
+    加载模型和优化器的检查点。
+    
+    Args:
+        checkpoint_path (str): 检查点文件路径。
+        model (torch.nn.Module): 模型。
+        optimizers (list): 优化器列表（如 [optim_g_muon, optim_g_adamw]）。
+        skip_optimizer (bool): 是否跳过加载优化器状态。
+    
+    Returns:
+        model: 加载权重后的模型。
+        optimizers: 加载状态后的优化器列表。
+        learning_rate: 学习率。
+        iteration: 当前迭代次数。
+    """
+    assert os.path.isfile(checkpoint_path), f"Checkpoint file not found: {checkpoint_path}"
+    
     checkpoint_dict = torch.load(checkpoint_path, map_location='cpu')
     iteration = checkpoint_dict['iteration']
     learning_rate = checkpoint_dict['learning_rate']
-    if optimizer is not None and not skip_optimizer and checkpoint_dict['optimizer'] is not None:
-        optimizer.load_state_dict(checkpoint_dict['optimizer'])
+
     saved_state_dict = checkpoint_dict['model']
     model = model.to(list(saved_state_dict.values())[0].dtype)
+    
     if hasattr(model, 'module'):
         state_dict = model.module.state_dict()
     else:
         state_dict = model.state_dict()
+
     new_state_dict = {}
     for k, v in state_dict.items():
         try:
             new_state_dict[k] = saved_state_dict[k]
             assert saved_state_dict[k].shape == v.shape, (saved_state_dict[k].shape, v.shape)
         except Exception:
-            logger.info("%s is not in the checkpoint" % k)
+            logger.info(f"{k} is not in the checkpoint")
             new_state_dict[k] = v
+
     if hasattr(model, 'module'):
         model.module.load_state_dict(new_state_dict)
     else:
         model.load_state_dict(new_state_dict)
-    print("Load checkpoint '{}' (iteration {})".format(checkpoint_path, iteration))
-    return model, optimizer, learning_rate, iteration
 
-def save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path):
+    print(f"Load checkpoint '{checkpoint_path}' (iteration {iteration})")
+
+    # 如果提供了优化器且不跳过加载优化器状态
+    if optimizers is not None and not skip_optimizer and 'optimizer' in checkpoint_dict:
+        optimizer_states = checkpoint_dict['optimizer']
+        for i, optimizer in enumerate(optimizers):
+            optimizer_key = f'optimizer_{i}'
+            if optimizer_key in optimizer_states:
+                optimizer.load_state_dict(optimizer_states[optimizer_key])
+            else:
+                raise KeyError(f"Optimizer state '{optimizer_key}' not found in checkpoint.")
+
+    return model, optimizers, learning_rate, iteration
+
+def save_checkpoint(model, optimizers, learning_rate, iteration, checkpoint_path):
     if hasattr(model, 'module'):
         state_dict = model.module.state_dict()
     else:
         state_dict = model.state_dict()
-    torch.save({'model': state_dict,
-                'iteration': iteration,
-                'optimizer': optimizer.state_dict(),
-                'learning_rate': learning_rate}, checkpoint_path)
+    optimizer_states = {}
+    for i, optimizer in enumerate(optimizers):
+        optimizer_states[f'optimizer_{i}'] = optimizer.state_dict()
+
+    torch.save({
+        'model': state_dict,
+        'iteration': iteration,
+        'optimizer': optimizer_states,  # 保存多个优化器的状态
+        'learning_rate': learning_rate
+    }, checkpoint_path)
 
 def clean_checkpoints(path_to_models='logs/44k/', n_ckpts_to_keep=2, sort_by_time=True):
     ckpts_files = [f for f in os.listdir(path_to_models) if os.path.isfile(os.path.join(path_to_models, f))]
