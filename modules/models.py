@@ -9,6 +9,7 @@ from vector_quantize_pytorch import VectorQuantize
 import modules.modules as modules
 from modules.commons import get_padding, init_weights
 from modules.msstftd import MultiScaleSTFTDiscriminator
+from utils.wav2spectrogram import PitchAdjustableSpectrogram
 
 LRELU_SLOPE = 0.1
 
@@ -20,32 +21,35 @@ class Encoder(nn.Module):
         self.h = h
         # h["inter_channels"]
         self.num_kernels = len(h["resblock_kernel_sizes"])
+        self.in_channels = h["downsample_channels"][0]
         self.out_channels = h["inter_channels"]
-        self.num_downsamples = len(h["upsample_rates"])
-        self.conv_pre = weight_norm(Conv1d(1, h["upsample_initial_channel"]// (2 ** len(h["upsample_rates"])), 7, 1, padding=3))
+        self.num_downsamples = len(h["downsample_rates"])
+        self.conv_pre = weight_norm(Conv1d(self.in_channels, self.in_channels, 7, 1, padding=3))
         resblock = ResBlock1 if h["resblock"] == '1' else ResBlock2
-        self.ups = nn.ModuleList()
-        for i, (u, k) in enumerate(zip(reversed(h["upsample_rates"]), reversed(h["upsample_kernel_sizes"]))):
-            self.ups.append(weight_norm(
-                Conv1d(h["upsample_initial_channel"] // (2 ** (len(h["upsample_rates"]) - i)), h["upsample_initial_channel"] // (2 ** (len(h["upsample_rates"]) - i - 1)),
-                                k, u, padding= (k - u + 1) // 2)))
+        
+        self.downs = nn.ModuleList()
+        for i, (d, k) in enumerate(zip(h["downsample_rates"], h["downsample_kernel_sizes"])):
+            self.downs.append(weight_norm(
+                Conv1d(h["downsample_channels"][i], h["downsample_channels"][i+1],
+                        k, d, padding= (k - d + 1) // 2)))
+            
         self.resblocks = nn.ModuleList()
-        for i in range(len(self.ups), 0, -1):
-            ch = h["upsample_initial_channel"] // (2 ** (i - 1))
+        for i in range(len(self.downs)):
+            ch = h["downsample_channels"][i+1]
             for j, (k, d) in enumerate(zip(h["resblock_kernel_sizes"], h["resblock_dilation_sizes"])):
                 self.resblocks.append(resblock(h, ch, k, d))
 
-        self.conv_post = weight_norm(Conv1d(ch, 2 * h["inter_channels"], 7, 1, padding=3))
-        self.ups.apply(init_weights)
+        self.conv_post = weight_norm(Conv1d(ch, 2 * self.out_channels, 7, 1, padding=3))
+        self.downs.apply(init_weights)
         self.conv_post.apply(init_weights)
         self.upp = np.prod(h["upsample_rates"])
 
     def forward(self, x):
-        x = x[:,None,:]
+
         x = self.conv_pre(x)
         for i in range(self.num_downsamples):
             x = F.leaky_relu(x, LRELU_SLOPE)
-            x = self.ups[i](x)
+            x = self.downs[i](x)
             xs = None
             for j in range(self.num_kernels):
                 if xs is None:
@@ -60,7 +64,7 @@ class Encoder(nn.Module):
         return z, m, logs
     
     def remove_weight_norm(self):
-        for l in self.ups:
+        for l in self.downs:
             remove_weight_norm(l)
         for l in self.resblocks:
             l.remove_weight_norm()
@@ -222,35 +226,189 @@ class ResBlock2(torch.nn.Module):
         for l in self.convs:
             remove_weight_norm(l)
 
+class SineGen(torch.nn.Module):
+    """ Definition of sine generator
+    SineGen(samp_rate, harmonic_num = 0,
+            sine_amp = 0.1, noise_std = 0.003,
+            voiced_threshold = 0,
+            flag_for_pulse=False)
+    samp_rate: sampling rate in Hz
+    harmonic_num: number of harmonic overtones (default 0)
+    sine_amp: amplitude of sine-waveform (default 0.1)
+    noise_std: std of Gaussian noise (default 0.003)
+    voiced_threshold: F0 threshold for U/V classification (default 0)
+    flag_for_pulse: this SinGen is used inside PulseGen (default False)
+    Note: when flag_for_pulse is True, the first time step of a voiced
+        segment is always sin(np.pi) or cos(0)
+    """
+
+    def __init__(self, samp_rate, harmonic_num=0,
+                 sine_amp=0.1, noise_std=0.003,
+                 voiced_threshold=0):
+        super(SineGen, self).__init__()
+        self.sine_amp = sine_amp
+        self.noise_std = noise_std
+        self.harmonic_num = harmonic_num
+        self.dim = self.harmonic_num + 1
+        self.sampling_rate = samp_rate
+        self.voiced_threshold = voiced_threshold
+
+    def _f02uv(self, f0):
+        # generate uv signal
+        uv = torch.ones_like(f0)
+        uv = uv * (f0 > self.voiced_threshold)
+        return uv
+
+    def _f02sine(self, f0, upp):
+        """ f0: (batchsize, length, dim)
+            where dim indicates fundamental tone and overtones
+        """
+        rad = f0 / self.sampling_rate * torch.arange(1, upp + 1, device=f0.device)
+        rad2 = torch.fmod(rad[..., -1:].float() + 0.5, 1.0) - 0.5
+        rad_acc = rad2.cumsum(dim=1).fmod(1.0).to(f0)
+        rad += F.pad(rad_acc[:, :-1, :], (0, 0, 1, 0))
+        rad = rad.reshape(f0.shape[0], -1, 1)
+        rad = torch.multiply(rad, torch.arange(1, self.dim + 1, device=f0.device).reshape(1, 1, -1))
+        rand_ini = torch.rand(1, 1, self.dim, device=f0.device)
+        rand_ini[..., 0] = 0
+        rad += rand_ini
+        sines = torch.sin(2 * np.pi * rad)
+        return sines
+
+    @torch.no_grad()
+    def forward(self, f0, upp):
+        """ sine_tensor, uv = forward(f0)
+        input F0: tensor(batchsize=1, length, dim=1)
+                  f0 for unvoiced steps should be 0
+        output sine_tensor: tensor(batchsize=1, length, dim)
+        output uv: tensor(batchsize=1, length, 1)
+        """
+        f0 = f0.unsqueeze(-1)
+        sine_waves = self._f02sine(f0, upp) * self.sine_amp
+        uv = (f0 > self.voiced_threshold).float()
+        uv = F.interpolate(uv.transpose(2, 1), scale_factor=upp, mode='nearest').transpose(2, 1)
+        noise_amp = uv * self.noise_std + (1 - uv) * self.sine_amp / 3
+        noise = noise_amp * torch.randn_like(sine_waves)
+        sine_waves = sine_waves * uv + noise
+        return sine_waves
+
+
+class SourceModuleHnNSF(torch.nn.Module):
+    """ SourceModule for hn-nsf
+    SourceModule(sampling_rate, harmonic_num=0, sine_amp=0.1,
+                 add_noise_std=0.003, voiced_threshod=0)
+    sampling_rate: sampling_rate in Hz
+    harmonic_num: number of harmonic above F0 (default: 0)
+    sine_amp: amplitude of sine source signal (default: 0.1)
+    add_noise_std: std of additive Gaussian noise (default: 0.003)
+        note that amplitude of noise in unvoiced is decided
+        by sine_amp
+    voiced_threshold: threhold to set U/V given F0 (default: 0)
+    Sine_source, noise_source = SourceModuleHnNSF(F0_sampled)
+    F0_sampled (batchsize, length, 1)
+    Sine_source (batchsize, length, 1)
+    noise_source (batchsize, length 1)
+    uv (batchsize, length, 1)
+    """
+
+    def __init__(self, sampling_rate, harmonic_num=0, sine_amp=0.1,
+                 add_noise_std=0.003, voiced_threshold=0):
+        super(SourceModuleHnNSF, self).__init__()
+
+        self.sine_amp = sine_amp
+        self.noise_std = add_noise_std
+
+        # to produce sine waveforms
+        self.l_sin_gen = SineGen(sampling_rate, harmonic_num,
+                                 sine_amp, add_noise_std, voiced_threshold)
+
+        # to merge source harmonics into a single excitation
+        self.l_linear = torch.nn.Linear(harmonic_num + 1, 1)
+        self.l_tanh = torch.nn.Tanh()
+
+    def forward(self, x, upp):
+        sine_wavs = self.l_sin_gen(x, upp)
+        sine_merge = self.l_tanh(self.l_linear(sine_wavs))
+        return sine_merge
+
+
 class Generator(torch.nn.Module):
     def __init__(self, h):
         super(Generator, self).__init__()
         self.h = h
-        self.num_kernels = len(h["resblock_kernel_sizes"])
-        self.num_upsamples = len(h["upsample_rates"])
-        self.conv_pre = weight_norm(Conv1d(h["inter_channels"], h["upsample_initial_channel"], 7, 1, padding=3))
-        resblock = ResBlock1 if h["resblock"] == '1' else ResBlock2
+        self.num_kernels = len(h.resblock_kernel_sizes)
+        self.num_upsamples = len(h.upsample_rates)
+        self.mini_nsf = h.mini_nsf
+        self.noise_sigma = h.noise_sigma
+        
+        if h.mini_nsf:
+            self.source_sr = h.sampling_rate / int(np.prod(h.upsample_rates[2: ]))
+            self.upp = int(np.prod(h.upsample_rates[: 2]))
+        else:
+            self.source_sr = h.sampling_rate
+            self.upp = int(np.prod(h.upsample_rates))
+            self.m_source = SourceModuleHnNSF(
+                sampling_rate=h.sampling_rate,
+                harmonic_num=8
+            )
+            self.noise_convs = nn.ModuleList()
+        
+        self.conv_pre = weight_norm(Conv1d(h.inter_channels, h.upsample_initial_channel, 7, 1, padding=3))   
+        
         self.ups = nn.ModuleList()
-        for i, (u, k) in enumerate(zip(h["upsample_rates"], h["upsample_kernel_sizes"])):
-            self.ups.append(weight_norm(
-                ConvTranspose1d(h["upsample_initial_channel"] // (2 ** i), h["upsample_initial_channel"] // (2 ** (i + 1)),
-                                k, u, padding=(k - u + 1) // 2)))
         self.resblocks = nn.ModuleList()
-        for i in range(len(self.ups)):
-            ch = h["upsample_initial_channel"] // (2 ** (i + 1))
-            for j, (k, d) in enumerate(zip(h["resblock_kernel_sizes"], h["resblock_dilation_sizes"])):
+        resblock = ResBlock1 if h.resblock == '1' else ResBlock2
+        ch = h.upsample_initial_channel
+        for i, (u, k) in enumerate(zip(h.upsample_rates, h.upsample_kernel_sizes)):
+            ch //= 2
+            self.ups.append(weight_norm(ConvTranspose1d(2 * ch, ch, k, u, padding=(k - u) // 2)))
+            for j, (k, d) in enumerate(zip(h.resblock_kernel_sizes, h.resblock_dilation_sizes)):
                 self.resblocks.append(resblock(h, ch, k, d))
+            if not h.mini_nsf:
+                if i + 1 < len(h.upsample_rates):  #
+                    stride_f0 = int(np.prod(h.upsample_rates[i + 1:]))
+                    self.noise_convs.append(Conv1d(
+                        1, ch, kernel_size=stride_f0 * 2, stride=stride_f0, padding=stride_f0 // 2))
+                else:
+                    self.noise_convs.append(Conv1d(1, ch, kernel_size=1))
+            elif i == 1:
+                self.source_conv = Conv1d(1, ch, 1)
+                self.source_conv.apply(init_weights)
 
         self.conv_post = weight_norm(Conv1d(ch, 1, 7, 1, padding=3))
+        
         self.ups.apply(init_weights)
         self.conv_post.apply(init_weights)
-        self.upp = np.prod(h["upsample_rates"])
-
-    def forward(self, x):
+        
+    def fastsinegen(self, f0):
+        n = torch.arange(1, self.upp + 1, device=f0.device)
+        s0 = f0.unsqueeze(-1) / self.source_sr
+        ds0 = F.pad(s0[:, 1:, :] - s0[:, :-1, :], (0, 0, 0, 1))
+        rad = s0 * n + 0.5 * ds0 * n * (n - 1) / self.upp
+        rad2 = torch.fmod(rad[..., -1:].float() + 0.5, 1.0) - 0.5
+        rad_acc = rad2.cumsum(dim=1).fmod(1.0).to(f0)
+        rad += F.pad(rad_acc[:, :-1, :], (0, 0, 1, 0))
+        rad = rad.reshape(f0.shape[0], 1, -1)
+        sines = torch.sin(2 * np.pi * rad)
+        return sines
+        
+    def forward(self, x, f0):
+        if self.mini_nsf:
+            har_source = self.fastsinegen(f0)
+        else:
+            har_source = self.m_source(f0, self.upp).transpose(1, 2)
         x = self.conv_pre(x)
+        if self.noise_sigma is not None and self.noise_sigma > 0:
+            x += self.noise_sigma * torch.randn_like(x)
         for i in range(self.num_upsamples):
             x = F.leaky_relu(x, LRELU_SLOPE)
             x = self.ups[i](x)
+            if not self.mini_nsf:
+                x_source = self.noise_convs[i](har_source)
+                x = x + x_source
+            elif i == 1:
+                x_source = self.source_conv(har_source)
+                x = x + x_source
             xs = None
             for j in range(self.num_kernels):
                 if xs is None:
@@ -261,10 +419,11 @@ class Generator(torch.nn.Module):
         x = F.leaky_relu(x)
         x = self.conv_post(x)
         x = torch.tanh(x)
-
         return x
 
     def remove_weight_norm(self):
+        # rank_zero_info('Removing weight norm...')
+        print('Removing weight norm...')
         for l in self.ups:
             remove_weight_norm(l)
         for l in self.resblocks:
@@ -334,76 +493,100 @@ def generator_loss(disc_outputs):
 
     return loss, gen_losses
 
+def get_max_f0_from_config(config: dict):
+    if config.mini_nsf:
+        source_sr = config.sampling_rate / int(np.prod(config.upsample_rates[2:]))
+    else:
+        source_sr = config.sampling_rate
+    max_f0 = source_sr / 2
+    return max_f0
+
 class TrainModel(nn.Module):
     """
     Synthesizer for Training
     """
 
-    def __init__(self,
-                 hop_size,
-                 windows_size,
-                 inter_channels,
-                 hidden_channels,
-                 kernel_size,
-                 p_dropout,
-                 resblock,
-                 resblock_kernel_sizes,
-                 resblock_dilation_sizes,
-                 upsample_rates,
-                 upsample_initial_channel,
-                 upsample_kernel_sizes,
-                 sampling_rate=44100,
+    def __init__(self,config,
                  use_vq = False,
                  codebook_size = 4096,
                  **kwargs):
 
         super().__init__()
-        self.inter_channels = inter_channels
-        self.hidden_channels = hidden_channels
-        self.kernel_size = kernel_size
-        self.p_dropout = p_dropout
-        self.resblock = resblock
-        self.resblock_kernel_sizes = resblock_kernel_sizes
-        self.resblock_dilation_sizes = resblock_dilation_sizes
-        self.upsample_rates = upsample_rates
-        self.upsample_initial_channel = upsample_initial_channel
-        self.upsample_kernel_sizes = upsample_kernel_sizes
-        self.hop_size = hop_size
-        self.windows_size = windows_size
-        
-        hps = {
-            "sampling_rate": sampling_rate,
-            "inter_channels": inter_channels,
-            "resblock": resblock,
-            "resblock_kernel_sizes": resblock_kernel_sizes,
-            "resblock_dilation_sizes": resblock_dilation_sizes,
-            "upsample_rates": upsample_rates,
-            "upsample_initial_channel": upsample_initial_channel,
-            "upsample_kernel_sizes": upsample_kernel_sizes
-        }
-        
-        self.dec = Generator(h=hps)
-
-        self.enc_q = Encoder(h=hps)
+        self.inter_channels = config.inter_channels
+        self.hidden_channels = config.hidden_channels
+        self.kernel_size = config.kernel_size
+        self.p_dropout = config.p_dropout
+        self.resblock = config.resblock
+        self.resblock_kernel_sizes = config.resblock_kernel_sizes
+        self.resblock_dilation_sizes = config.resblock_dilation_sizes
+        self.upsample_rates = config.upsample_rates
+        self.upsample_initial_channel = config.upsample_initial_channel
+        self.upsample_kernel_sizes = config.upsample_kernel_sizes
+        self.hop_size = config.hop_size
+        self.pc_aug = config.pc_aug
+        self.pc_aug_key = config.pc_aug_key
+        self.max_f0 = get_max_f0_from_config(config)
+        self.TF = PitchAdjustableSpectrogram(
+            sample_rate=config.sampling_rate,
+            n_fft=config.fft_size,
+            win_length=config.win_size,
+            hop_length=config.hop_size,
+        )
+        self.dec = Generator(h=config)
+        self.enc_q = Encoder(h=config)
         
         if use_vq:
             self.quantizer = VectorQuantize(
-                dim = inter_channels,
+                dim = config.inter_channels,
                 codebook_size = codebook_size,
                 decay = 0.8,             
                 commitment_weight = 1.)
         else:
             self.quantizer = None
 
-    def forward(self, wav):
-        z, m, logs = self.enc_q(wav)
+    def forward(self, sample, pc_aug_num):
+        z, m, logs = self.enc_q(sample['spec'])
+        print("zzzzz",z.shape)
+        pc_aug = self.pc_aug and pc_aug_num > 0
+        
+        if pc_aug:
+            if pc_aug_num <= 0:
+                raise ValueError('pc_aug_num should be greater than 0')
+            f0 = sample['f0']
+            key_c = (2 * torch.rand(pc_aug_num, device=f0.device).unsqueeze(-1) - 1) * self.pc_aug_key
+            # (1) c + (-c) = 0
+            f0_shift_c = torch.clip(f0[:pc_aug_num] * 2 ** (key_c / 12), max=self.max_f0)
+            wav_mixed = self.dec(z, f0=torch.cat((f0_shift_c, f0[pc_aug_num:]), dim=0))
+            wav_shift_c, wav_shift_0 = wav_mixed[:pc_aug_num], wav_mixed[pc_aug_num:]
+            spec_shift_c = self.TF.dynamic_range_compression_torch(self.TF(wav_shift_c.squeeze(1)))
+            z_shift_c = self.enc_q(spec_shift_c)[0]
+            wav_shift_back = self.dec(z_shift_c, f0=f0[:pc_aug_num])
+            wav_ret = torch.cat((wav_shift_back, wav_shift_0), dim=0)
+            # (2) a + b = c
+            key_a_max = self.pc_aug_key + key_c.clamp(max=0)
+            key_a_min = -self.pc_aug_key + key_c.clamp(min=0)
+            key_a = (key_a_max - key_a_min) * torch.rand(pc_aug_num, device=f0.device).unsqueeze(-1) + key_a_min
+            f0_shift_a = torch.clip(f0[:pc_aug_num] * 2 ** (key_a / 12), max=self.max_f0)
+            wav_shift_a = self.dec(z[:pc_aug_num], f0=f0_shift_a)
+            spec_shift_a = self.TF.dynamic_range_compression_torch(self.TF(wav_shift_a.squeeze(1)))
+            z_shift_a = self.enc_q(spec_shift_a)[0]
+            wav_shift_ab = self.dec(z_shift_a, f0=f0_shift_c)
+            ret = {
+            'audio': wav_ret,
+            'audio_shift_c': wav_shift_c,
+            'audio_shift_a': wav_shift_a,
+            'audio_shift_ab': wav_shift_ab
+            }
+        else:
+            wav = self.dec(z, f0=sample['f0'])
+            ret = {'audio': wav}
+
         if self.quantizer is not None and self.training:
             z_, indices, commit_loss = self.quantizer(z.transpose(1,2))
         else:
             commit_loss = 0
-        wav = self.dec(z)
 
-        return z, wav, (m, logs), commit_loss
+        return z, ret, (m, logs), commit_loss
     
     def remove_weight_norm(self):
         self.dec.remove_weight_norm()

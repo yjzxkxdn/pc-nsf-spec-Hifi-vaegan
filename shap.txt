@@ -1,0 +1,852 @@
+
+
+
+
+Encoder:
+
+x_conv_pre.shape: torch.Size([1, 16, 1024])
+x_ups[0].shape: torch.Size([1, 32, 512])
+
+conv1.weight.shape: torch.Size([32, 32, 3]), conv2.weight.shape: torch.Size([32, 32, 3])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 3]), conv2.weight.shape: torch.Size([32, 32, 3])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 3]), conv2.weight.shape: torch.Size([32, 32, 3])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+x_resblocks[0].shape: torch.Size([1, 32, 512])
+
+conv1.weight.shape: torch.Size([32, 32, 7]), conv2.weight.shape: torch.Size([32, 32, 7])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 7]), conv2.weight.shape: torch.Size([32, 32, 7])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 7]), conv2.weight.shape: torch.Size([32, 32, 7])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+x_resblocks[1].shape: torch.Size([1, 32, 512])
+
+conv1.weight.shape: torch.Size([32, 32, 11]), conv2.weight.shape: torch.Size([32, 32, 11])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 11]), conv2.weight.shape: torch.Size([32, 32, 11])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 11]), conv2.weight.shape: torch.Size([32, 32, 11])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+x_resblocks[2].shape: torch.Size([1, 32, 512])
+
+
+x_ups[1].shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 3]), conv2.weight.shape: torch.Size([64, 64, 3])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 3]), conv2.weight.shape: torch.Size([64, 64, 3])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 3]), conv2.weight.shape: torch.Size([64, 64, 3])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+x_resblocks[3].shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 7]), conv2.weight.shape: torch.Size([64, 64, 7])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 7]), conv2.weight.shape: torch.Size([64, 64, 7])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 7]), conv2.weight.shape: torch.Size([64, 64, 7])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+x_resblocks[4].shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 11]), conv2.weight.shape: torch.Size([64, 64, 11])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 11]), conv2.weight.shape: torch.Size([64, 64, 11])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 11]), conv2.weight.shape: torch.Size([64, 64, 11])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+x_resblocks[5].shape: torch.Size([1, 64, 256])
+x_ups[2].shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 3]), conv2.weight.shape: torch.Size([128, 128, 3])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 3]), conv2.weight.shape: torch.Size([128, 128, 3])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 3]), conv2.weight.shape: torch.Size([128, 128, 3])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+x_resblocks[6].shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 7]), conv2.weight.shape: torch.Size([128, 128, 7])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 7]), conv2.weight.shape: torch.Size([128, 128, 7])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 7]), conv2.weight.shape: torch.Size([128, 128, 7])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+x_resblocks[7].shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 11]), conv2.weight.shape: torch.Size([128, 128, 11])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 11]), conv2.weight.shape: torch.Size([128, 128, 11])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 11]), conv2.weight.shape: torch.Size([128, 128, 11])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+x_resblocks[8].shape: torch.Size([1, 128, 128])
+x_ups[3].shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 3]), conv2.weight.shape: torch.Size([256, 256, 3])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 3]), conv2.weight.shape: torch.Size([256, 256, 3])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 3]), conv2.weight.shape: torch.Size([256, 256, 3])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+x_resblocks[9].shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 7]), conv2.weight.shape: torch.Size([256, 256, 7])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 7]), conv2.weight.shape: torch.Size([256, 256, 7])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 7]), conv2.weight.shape: torch.Size([256, 256, 7])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+x_resblocks[10].shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 11]), conv2.weight.shape: torch.Size([256, 256, 11])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 11]), conv2.weight.shape: torch.Size([256, 256, 11])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 11]), conv2.weight.shape: torch.Size([256, 256, 11])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+x_resblocks[11].shape: torch.Size([1, 256, 16])
+x_ups[4].shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 3]), conv2.weight.shape: torch.Size([512, 512, 3])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 3]), conv2.weight.shape: torch.Size([512, 512, 3])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 3]), conv2.weight.shape: torch.Size([512, 512, 3])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+x_resblocks[12].shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 7]), conv2.weight.shape: torch.Size([512, 512, 7])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 7]), conv2.weight.shape: torch.Size([512, 512, 7])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 7]), conv2.weight.shape: torch.Size([512, 512, 7])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+x_resblocks[13].shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 11]), conv2.weight.shape: torch.Size([512, 512, 11])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 11]), conv2.weight.shape: torch.Size([512, 512, 11])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+conv1.weight.shape: torch.Size([512, 512, 11]), conv2.weight.shape: torch.Size([512, 512, 11])
+xt_conv1.shape: torch.Size([1, 512, 2])
+xt_conv2.shape: torch.Size([1, 512, 2])
+x_resblocks[14].shape: torch.Size([1, 512, 2])
+x_conv_post.shape: torch.Size([1, 384, 2])
+m.shape: torch.Size([1, 192, 2]), logs.shape: torch.Size([1, 192, 2])
+torch.Size([1, 192, 2]) torch.Size([1, 192, 2]) torch.Size([1, 192, 2])
+
+
+Encoder(
+  (conv_pre): Conv1d(1, 16, kernel_size=(7,), stride=(1,), padding=(3,))
+  (ups): ModuleList(
+    (0): Conv1d(16, 32, kernel_size=(4,), stride=(2,), padding=(1,))
+    (1): Conv1d(32, 64, kernel_size=(4,), stride=(2,), padding=(1,))
+    (2): Conv1d(64, 128, kernel_size=(4,), stride=(2,), padding=(1,))
+    (3): Conv1d(128, 256, kernel_size=(16,), stride=(8,), padding=(4,))
+    (4): Conv1d(256, 512, kernel_size=(16,), stride=(8,), padding=(4,))
+  )
+  (resblocks): ModuleList(
+    (0): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (1): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (2): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (3): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (4): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (5): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (6): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (7): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (8): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (9): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (10): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (11): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (12): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(512, 512, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(512, 512, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(512, 512, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(512, 512, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (13): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(512, 512, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(512, 512, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(512, 512, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(512, 512, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (14): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(512, 512, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(512, 512, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(512, 512, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(512, 512, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+  )
+  (conv_post): Conv1d(512, 384, kernel_size=(7,), stride=(1,), padding=(3,))
+)
+
+
+
+
+
+
+Generator:
+
+x_conv_pre.shape: torch.Size([1, 512, 2])
+
+x_ups0.shape: torch.Size([1, 256, 16])
+
+conv1.weight.shape: torch.Size([256, 256, 3]), conv2.weight.shape: torch.Size([256, 256, 3])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 3]), conv2.weight.shape: torch.Size([256, 256, 3])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 3]), conv2.weight.shape: torch.Size([256, 256, 3])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+x_resblock0.shape: torch.Size([1, 256, 16])
+
+conv1.weight.shape: torch.Size([256, 256, 7]), conv2.weight.shape: torch.Size([256, 256, 7])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 7]), conv2.weight.shape: torch.Size([256, 256, 7])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 7]), conv2.weight.shape: torch.Size([256, 256, 7])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+x_resblock1.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 11]), conv2.weight.shape: torch.Size([256, 256, 11])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 11]), conv2.weight.shape: torch.Size([256, 256, 11])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+conv1.weight.shape: torch.Size([256, 256, 11]), conv2.weight.shape: torch.Size([256, 256, 11])
+xt_conv1.shape: torch.Size([1, 256, 16])
+xt_conv2.shape: torch.Size([1, 256, 16])
+x_resblock2.shape: torch.Size([1, 256, 16])
+
+
+x_ups1.shape: torch.Size([1, 128, 128])
+
+conv1.weight.shape: torch.Size([128, 128, 3]), conv2.weight.shape: torch.Size([128, 128, 3])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 3]), conv2.weight.shape: torch.Size([128, 128, 3])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 3]), conv2.weight.shape: torch.Size([128, 128, 3])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+x_resblock3.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 7]), conv2.weight.shape: torch.Size([128, 128, 7])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 7]), conv2.weight.shape: torch.Size([128, 128, 7])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 7]), conv2.weight.shape: torch.Size([128, 128, 7])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+x_resblock4.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 11]), conv2.weight.shape: torch.Size([128, 128, 11])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 11]), conv2.weight.shape: torch.Size([128, 128, 11])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+conv1.weight.shape: torch.Size([128, 128, 11]), conv2.weight.shape: torch.Size([128, 128, 11])
+xt_conv1.shape: torch.Size([1, 128, 128])
+xt_conv2.shape: torch.Size([1, 128, 128])
+x_resblock5.shape: torch.Size([1, 128, 128])
+x_ups2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 3]), conv2.weight.shape: torch.Size([64, 64, 3])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 3]), conv2.weight.shape: torch.Size([64, 64, 3])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 3]), conv2.weight.shape: torch.Size([64, 64, 3])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+x_resblock6.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 7]), conv2.weight.shape: torch.Size([64, 64, 7])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 7]), conv2.weight.shape: torch.Size([64, 64, 7])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 7]), conv2.weight.shape: torch.Size([64, 64, 7])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+x_resblock7.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 11]), conv2.weight.shape: torch.Size([64, 64, 11])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 11]), conv2.weight.shape: torch.Size([64, 64, 11])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+conv1.weight.shape: torch.Size([64, 64, 11]), conv2.weight.shape: torch.Size([64, 64, 11])
+xt_conv1.shape: torch.Size([1, 64, 256])
+xt_conv2.shape: torch.Size([1, 64, 256])
+x_resblock8.shape: torch.Size([1, 64, 256])
+x_ups3.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 3]), conv2.weight.shape: torch.Size([32, 32, 3])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 3]), conv2.weight.shape: torch.Size([32, 32, 3])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 3]), conv2.weight.shape: torch.Size([32, 32, 3])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+x_resblock9.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 7]), conv2.weight.shape: torch.Size([32, 32, 7])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 7]), conv2.weight.shape: torch.Size([32, 32, 7])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 7]), conv2.weight.shape: torch.Size([32, 32, 7])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+x_resblock10.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 11]), conv2.weight.shape: torch.Size([32, 32, 11])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 11]), conv2.weight.shape: torch.Size([32, 32, 11])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+conv1.weight.shape: torch.Size([32, 32, 11]), conv2.weight.shape: torch.Size([32, 32, 11])
+xt_conv1.shape: torch.Size([1, 32, 512])
+xt_conv2.shape: torch.Size([1, 32, 512])
+x_resblock11.shape: torch.Size([1, 32, 512])
+x_ups4.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 3]), conv2.weight.shape: torch.Size([16, 16, 3])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 3]), conv2.weight.shape: torch.Size([16, 16, 3])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 3]), conv2.weight.shape: torch.Size([16, 16, 3])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+x_resblock12.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 7]), conv2.weight.shape: torch.Size([16, 16, 7])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 7]), conv2.weight.shape: torch.Size([16, 16, 7])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 7]), conv2.weight.shape: torch.Size([16, 16, 7])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+x_resblock13.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 11]), conv2.weight.shape: torch.Size([16, 16, 11])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 11]), conv2.weight.shape: torch.Size([16, 16, 11])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+conv1.weight.shape: torch.Size([16, 16, 11]), conv2.weight.shape: torch.Size([16, 16, 11])
+xt_conv1.shape: torch.Size([1, 16, 1024])
+xt_conv2.shape: torch.Size([1, 16, 1024])
+x_resblock14.shape: torch.Size([1, 16, 1024])
+x_conv_post.shape: torch.Size([1, 1, 1024])
+torch.Size([1, 1, 1024])
+
+
+Generator(
+  (conv_pre): Conv1d(192, 512, kernel_size=(7,), stride=(1,), padding=(3,))
+  (ups): ModuleList(
+    (0): ConvTranspose1d(512, 256, kernel_size=(16,), stride=(8,), padding=(4,))
+    (1): ConvTranspose1d(256, 128, kernel_size=(16,), stride=(8,), padding=(4,))
+    (2): ConvTranspose1d(128, 64, kernel_size=(4,), stride=(2,), padding=(1,))
+    (3): ConvTranspose1d(64, 32, kernel_size=(4,), stride=(2,), padding=(1,))
+    (4): ConvTranspose1d(32, 16, kernel_size=(4,), stride=(2,), padding=(1,))
+  )
+  (resblocks): ModuleList(
+    (0): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (1): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (2): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (3): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (4): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (5): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (6): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (7): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (8): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (9): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (10): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (11): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (12): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (13): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (14): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+  )
+  (conv_post): Conv1d(16, 1, kernel_size=(7,), stride=(1,), padding=(3,))
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hifigan_Generator(
+  (conv_pre): Conv1d(128, 512, kernel_size=(7,), stride=(1,), padding=(3,))
+  (ups): ModuleList(
+    (0): ConvTranspose1d(512, 256, kernel_size=(16,), stride=(8,), padding=(4,))
+    (1): ConvTranspose1d(256, 128, kernel_size=(16,), stride=(8,), padding=(4,))
+    (2): ConvTranspose1d(128, 64, kernel_size=(4,), stride=(2,), padding=(1,))
+    (3): ConvTranspose1d(64, 32, kernel_size=(4,), stride=(2,), padding=(1,))
+    (4): ConvTranspose1d(32, 16, kernel_size=(4,), stride=(2,), padding=(1,))
+  )
+  (resblocks): ModuleList(
+    (0): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (1): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (2): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(256, 256, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (3): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (4): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (5): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(128, 128, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (6): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (7): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (8): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(64, 64, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (9): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (10): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (11): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(32, 32, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+    (12): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(1,))
+        (1): Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(3,), dilation=(3,))
+        (2): Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(5,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(16, 16, kernel_size=(3,), stride=(1,), padding=(1,))
+      )
+    )
+    (13): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(3,))
+        (1): Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(9,), dilation=(3,))
+        (2): Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(15,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(16, 16, kernel_size=(7,), stride=(1,), padding=(3,))
+      )
+    )
+    (14): ResBlock1(
+      (convs1): ModuleList(
+        (0): Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(5,))
+        (1): Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(15,), dilation=(3,))
+        (2): Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(25,), dilation=(5,))
+      )
+      (convs2): ModuleList(
+        (0-2): 3 x Conv1d(16, 16, kernel_size=(11,), stride=(1,), padding=(5,))
+      )
+    )
+  )
+  (source_conv): Conv1d(1, 128, kernel_size=(1,), stride=(1,))
+  (conv_post): Conv1d(16, 1, kernel_size=(7,), stride=(1,), padding=(3,))
+)

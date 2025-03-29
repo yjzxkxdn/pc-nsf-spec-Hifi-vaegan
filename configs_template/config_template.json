@@ -10,10 +10,11 @@
       0.99
     ],
     "eps": 1e-9,
-    "batch_size": 12,
+    "batch_size": 1,
     "fp16_run": false,
     "half_type": "fp16",
     "lr_decay": 0.999875,
+    "weight_decay": 0.01,
     "segment_size": 72,
     "init_lr_ratio": 1,
     "warmup_epochs": 0,
@@ -25,20 +26,32 @@
     "port": "8001",
     "keep_ckpts": 10,
     "all_in_mem": false,
-    "vol_aug": false,
-    "pitch_aug": true
+    "crop_spec_frames": 86,
+
+    "volume_aug": true,
+    "volume_aug_prob":0.5,
+    "key_aug": false,
+    "key_aug_prob": 0.5,
+    "pc_aug": true,
+    "pc_aug_rate": 0.4,
+    "pc_aug_key": 12
   },
   "data": {
-    "training_files": "filelists/train.txt",
-    "validation_files": "filelists/val.txt",
-    "max_wav_value": 32768,
+    "training_files": "data/train",
+    "validation_files": "data/val",
+    "model_dir": "exp/model",
+    "DataIndexPath": "exp/model/dataIndex",
     "sampling_rate": 44100,
     "filter_length": 2048,
-    "hop_length": 512,
-    "win_length": 2048,
+    "hop_size": 512,
+    "win_size": 2048,
+    "fft_size": 2048,
     "n_mel_channels": 128,
     "mel_fmin": 0,
-    "mel_fmax": 22050
+    "mel_fmax": 22050,
+    "pe": "parselmouth",
+    "f0_min": 65,
+    "f0_max": 1100
   },
   "model": {
     "inter_channels": 192,
@@ -54,9 +67,14 @@
     "upsample_rates": [8,8,2,2,2],
     "upsample_initial_channel": 512,
     "upsample_kernel_sizes": [16,16,4,4,4],
+    "downsample_rates": [1,1],
+    "downsample_kernel_sizes": [5,5],
+    "downsample_channels": [1025,768,512],
     "use_spectral_norm": false,
     "vol_embedding": false,
     "use_vq": true,
-    "codebook_size": 4096
+    "codebook_size": 4096,
+    "mini_nsf": true,
+    "noise_sigma": 0.05
   }
 }

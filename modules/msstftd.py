@@ -143,8 +143,11 @@ class DiscriminatorSTFT(nn.Module):
 
     def forward(self, x: torch.Tensor):
         fmap = []
+        print("DSTFT x shape: ", x.shape)
         z = self.spec_transform(x)  # [B, 2, Freq, Frames, 2]
+        print("DSTFT z shape: ", z.shape)
         z = torch.cat([z.real, z.imag], dim=1)
+        print("DSTFT z shape: ", z.shape)
         z = rearrange(z, 'b c w t -> b c t w')
         for i, layer in enumerate(self.convs):
             z = layer(z)
